@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8"/>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <title>Seller Dashboard - AgriContract</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet"/>
+    <style>
+        * { font-family: 'Poppins', sans-serif; }
+        .custom-scrollbar::-webkit-scrollbar { width: 4px; }
+        .custom-scrollbar::-webkit-scrollbar-thumb { background: #d4d4d8; border-radius: 999px; }
+        .custom-scrollbar::-webkit-scrollbar-track { background: transparent; }
+        @keyframes fadeUp { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: translateY(0); } }
+        .fade-up { animation: fadeUp 0.5s cubic-bezier(0.4, 0, 0.2, 1) forwards; }
+        .fade-up-d1 { animation-delay: 0.05s; opacity: 0; }
+        .fade-up-d2 { animation-delay: 0.1s; opacity: 0; }
+        .fade-up-d3 { animation-delay: 0.15s; opacity: 0; }
+        .fade-up-d4 { animation-delay: 0.2s; opacity: 0; }
+        /* Mobile sidebar toggle */
+        @media (max-width: 1023px) {
+            .sidebar { transform: translateX(-100%); transition: transform 0.3s ease; }
+            .sidebar.open { transform: translateX(0); }
+            .main-content { margin-left: 0 !important; }
+        }
+    </style>
+</head>
+<body class="bg-[#f8faf8] text-zinc-900">
+
+    <!-- Top Navbar -->
+    <header class="fixed top-0 w-full bg-white border-b border-zinc-200 shadow-sm flex items-center justify-between h-16 px-5 z-50">
+        <div class="flex items-center gap-3">
+            <!-- Mobile menu toggle -->
+            <button id="menuToggle" class="lg:hidden p-1 hover:bg-zinc-100 rounded-lg transition-colors">
+                <span class="material-symbols-outlined text-[24px] text-emerald-800">menu</span>
+            </button>
+            <span class="material-symbols-outlined text-[26px] text-emerald-800">agriculture</span>
+            <h1 class="text-[17px] font-bold text-emerald-950 tracking-tight hidden sm:block">AgriContract</h1>
+        </div>
+        <div class="flex items-center gap-4">
+            <button class="hover:bg-zinc-50 p-2 rounded-lg transition-colors hidden sm:block">
+                <span class="material-symbols-outlined text-[20px] text-zinc-600">search</span>
+            </button>
+            <button class="hover:bg-zinc-50 p-2 rounded-lg transition-colors relative" id="notifBtn">
+                <span class="material-symbols-outlined text-[20px] text-zinc-600">notifications</span>
+                <span class="absolute top-1.5 right-1.5 w-2 h-2 bg-red-500 rounded-full"></span>
+            </button>
+            <div class="hidden sm:flex items-center gap-2 pl-3 border-l border-zinc-200">
+                <div class="text-right">
+                    <p class="text-[13px] font-semibold text-emerald-950 user-name-display leading-tight">Farmer</p>
+                    <p class="text-[10px] text-zinc-500 uppercase tracking-wider font-medium">Seller</p>
+                </div>
+                <div class="h-9 w-9 rounded-full bg-emerald-100 border border-emerald-200 flex items-center justify-center overflow-hidden">
+                    <span class="material-symbols-outlined text-emerald-700 text-[18px]">person</span>
+                </div>
+            </div>
+            <button class="logout-btn p-2 hover:bg-red-50 rounded-lg transition-colors text-zinc-400 hover:text-red-500" title="Logout">
+                <span class="material-symbols-outlined text-[20px]">logout</span>
+            </button>
+        </div>
+    </header>
+
+    <!-- Sidebar -->
+    <aside id="sidebar" class="sidebar fixed left-0 top-0 h-screen w-64 bg-white border-r border-zinc-200 flex flex-col pt-16 z-40 lg:translate-x-0">
+        <div class="px-5 py-6 border-b border-zinc-100">
+            <p class="text-[16px] font-bold text-emerald-950 user-name-display leading-tight mb-0.5">Farmer</p>
+            <p class="text-[12px] text-zinc-500 user-role-display mb-3">Agri-Producer</p>
+            <span class="inline-block bg-emerald-900 text-white text-[9px] font-bold px-2.5 py-1 rounded tracking-widest">SELLER ACCOUNT</span>
+        </div>
+        <nav class="flex-1 py-3 space-y-0.5">
+            <a class="flex items-center gap-3 px-5 py-2.5 bg-emerald-50 text-emerald-700 border-l-[3px] border-emerald-600 font-semibold text-[14px] transition-all" href="seller.html">
+                <span class="material-symbols-outlined text-[20px]" style="font-variation-settings: 'FILL' 1;">space_dashboard</span> Dashboard
+            </a>
+            <a class="flex items-center gap-3 px-5 py-2.5 text-zinc-600 hover:text-emerald-700 hover:bg-emerald-50/60 border-l-[3px] border-transparent transition-all text-[14px]" href="crops.html">
+                <span class="material-symbols-outlined text-[20px]">eco</span> My Crops
+            </a>
+            <a class="flex items-center gap-3 px-5 py-2.5 text-zinc-600 hover:text-emerald-700 hover:bg-emerald-50/60 border-l-[3px] border-transparent transition-all text-[14px]" href="marketplace.html">
+                <span class="material-symbols-outlined text-[20px]">storefront</span> Buyers Marketplace
+            </a>
+            <a class="flex items-center gap-3 px-5 py-2.5 text-zinc-600 hover:text-emerald-700 hover:bg-emerald-50/60 border-l-[3px] border-transparent transition-all text-[14px]" href="contracts.html">
+                <span class="material-symbols-outlined text-[20px]">description</span> Contracts
+            </a>
+            <a class="flex items-center gap-3 px-5 py-2.5 text-zinc-600 hover:text-emerald-700 hover:bg-emerald-50/60 border-l-[3px] border-transparent transition-all text-[14px]" href="#">
+                <span class="material-symbols-outlined text-[20px]">account_balance_wallet</span> Payments
+            </a>
+            <a class="flex items-center gap-3 px-5 py-2.5 text-zinc-600 hover:text-emerald-700 hover:bg-emerald-50/60 border-l-[3px] border-transparent transition-all text-[14px]" href="analytics.html">
+                <span class="material-symbols-outlined text-[20px]">insert_chart</span> Analytics
+            </a>
+        </nav>
+        <div class="px-5 py-4 border-t border-zinc-100">
+            <a class="flex items-center gap-3 text-zinc-500 hover:text-emerald-700 transition-colors text-[13px]" href="#">
+                <span class="material-symbols-outlined text-[18px]">settings</span> Settings
+            </a>
+        </div>
+    </aside>
+
+    <!-- Sidebar overlay for mobile -->
+    <div id="sidebarOverlay" class="fixed inset-0 bg-black/30 z-30 hidden lg:hidden" onclick="closeSidebar()"></div>
+
+    <!-- Main Content -->
+    <main class="main-content lg:ml-64 pt-16 min-h-screen">
+        <div class="p-5 md:p-8 max-w-[1400px] mx-auto">
+
+            <!-- A. Welcome Section -->
+            <header class="mb-8 fade-up">
+                <div class="flex flex-col md:flex-row md:items-end md:justify-between gap-4">
+                    <div>
+                        <h2 class="text-2xl md:text-[30px] font-bold text-emerald-950 tracking-tight leading-tight mb-1">
+                            Welcome back, <span class="user-name-display">Farmer</span> 👋
+                        </h2>
+                        <p class="text-zinc-500 text-[15px]">Here's your farm activity overview for today.</p>
+                    </div>
+                    <div class="flex items-center gap-3">
+                        <button class="flex items-center gap-2 px-4 py-2 border border-zinc-300 rounded-lg text-[13px] font-medium text-zinc-700 hover:bg-zinc-50 bg-white shadow-sm transition-all">
+                            <span class="material-symbols-outlined text-[16px]">calendar_month</span> Last 30 Days
+                        </button>
+                        <button class="flex items-center gap-2 px-4 py-2 bg-emerald-800 text-white rounded-lg text-[13px] font-medium shadow-sm hover:bg-emerald-900 transition-all">
+                            <span class="material-symbols-outlined text-[16px]">download</span> Export
+                        </button>
+                    </div>
+                </div>
+            </header>
+
+            <!-- B. Stats Cards -->
+            <section class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 mb-8">
+                <div class="bg-white p-5 rounded-xl border border-zinc-200 shadow-sm hover:shadow-md transition-all fade-up fade-up-d1">
+                    <div class="flex justify-between items-start mb-4">
+                        <div class="w-11 h-11 bg-emerald-100 rounded-xl flex items-center justify-center">
+                            <span class="material-symbols-outlined text-emerald-700 text-[20px]">eco</span>
+                        </div>
+                        <span class="bg-emerald-50 text-emerald-700 text-[11px] font-semibold py-1 px-2 rounded-md flex items-center gap-1">
+                            <span class="material-symbols-outlined text-[11px]">trending_up</span>+8%
+                        </span>
+                    </div>
+                    <p class="text-zinc-500 text-[13px] font-medium mb-1" id="statTotalCropsLabel">Total Crops</p>
+                    <h3 class="text-[26px] font-bold text-emerald-950 tracking-tight leading-none" id="statTotalCrops">12</h3>
+                </div>
+                <div class="bg-white p-5 rounded-xl border border-zinc-200 shadow-sm hover:shadow-md transition-all fade-up fade-up-d2">
+                    <div class="flex justify-between items-start mb-4">
+                        <div class="w-11 h-11 bg-indigo-100 rounded-xl flex items-center justify-center">
+                            <span class="material-symbols-outlined text-indigo-700 text-[20px]">description</span>
+                        </div>
+                        <span class="bg-indigo-50 text-indigo-700 text-[11px] font-semibold py-1 px-2 rounded-md">Active</span>
+                    </div>
+                    <p class="text-zinc-500 text-[13px] font-medium mb-1">Active Contracts</p>
+                    <h3 class="text-[26px] font-bold text-emerald-950 tracking-tight leading-none" id="statActiveContracts">0</h3>
+                </div>
+                <div class="bg-white p-5 rounded-xl border border-zinc-200 shadow-sm hover:shadow-md transition-all fade-up fade-up-d3">
+                    <div class="flex justify-between items-start mb-4">
+                        <div class="w-11 h-11 bg-amber-100 rounded-xl flex items-center justify-center">
+                            <span class="material-symbols-outlined text-amber-700 text-[20px]">payments</span>
+                        </div>
+                        <span class="bg-emerald-50 text-emerald-700 text-[11px] font-semibold py-1 px-2 rounded-md flex items-center gap-1">
+                            <span class="material-symbols-outlined text-[11px]">trending_up</span>+12.4%
+                        </span>
+                    </div>
+                    <p class="text-zinc-500 text-[13px] font-medium mb-1">Earnings</p>
+                    <h3 class="text-[26px] font-bold text-emerald-950 tracking-tight leading-none" id="statEarnings">₹0.00</h3>
+                </div>
+                <div class="bg-emerald-900 p-5 rounded-xl shadow-md hover:shadow-lg transition-all fade-up fade-up-d4">
+                    <div class="flex justify-between items-start mb-4">
+                        <div class="w-11 h-11 bg-emerald-800 rounded-xl flex items-center justify-center">
+                            <span class="material-symbols-outlined text-emerald-200 text-[20px]">pending_actions</span>
+                        </div>
+                    </div>
+                    <p class="text-emerald-200 text-[13px] font-medium mb-1">Pending Deals</p>
+                    <h3 class="text-[26px] font-bold text-white tracking-tight leading-none" id="statPending">0</h3>
+                </div>
+            </section>
+
+            <!-- C. Quick Actions -->
+            <section class="mb-8 fade-up">
+                <h3 class="text-[15px] font-semibold text-zinc-700 mb-3 flex items-center gap-2">
+                    <span class="material-symbols-outlined text-[18px] text-zinc-500">bolt</span> Quick Actions
+                </h3>
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-3">
+                    <button onclick="document.getElementById('cropName').focus()" class="flex items-center gap-3 bg-white border border-zinc-200 rounded-xl p-4 hover:border-emerald-300 hover:bg-emerald-50/40 transition-all group shadow-sm">
+                        <div class="w-10 h-10 bg-emerald-100 rounded-lg flex items-center justify-center group-hover:bg-emerald-200 transition-colors">
+                            <span class="material-symbols-outlined text-emerald-700 text-[18px]">add_circle</span>
+                        </div>
+                        <span class="text-[13px] font-semibold text-zinc-700 group-hover:text-emerald-700">Add Crop</span>
+                    </button>
+                    <a href="marketplace.html" class="flex items-center gap-3 bg-white border border-zinc-200 rounded-xl p-4 hover:border-emerald-300 hover:bg-emerald-50/40 transition-all group shadow-sm no-underline">
+                        <div class="w-10 h-10 bg-blue-100 rounded-lg flex items-center justify-center group-hover:bg-blue-200 transition-colors">
+                            <span class="material-symbols-outlined text-blue-700 text-[18px]">storefront</span>
+                        </div>
+                        <span class="text-[13px] font-semibold text-zinc-700 group-hover:text-blue-700">Browse Market</span>
+                    </a>
+                    <a href="contracts.html" class="flex items-center gap-3 bg-white border border-zinc-200 rounded-xl p-4 hover:border-emerald-300 hover:bg-emerald-50/40 transition-all group shadow-sm no-underline">
+                        <div class="w-10 h-10 bg-purple-100 rounded-lg flex items-center justify-center group-hover:bg-purple-200 transition-colors">
+                            <span class="material-symbols-outlined text-purple-700 text-[18px]">description</span>
+                        </div>
+                        <span class="text-[13px] font-semibold text-zinc-700 group-hover:text-purple-700">View Contracts</span>
+                    </a>
+                    <a href="analytics.html" class="flex items-center gap-3 bg-white border border-zinc-200 rounded-xl p-4 hover:border-emerald-300 hover:bg-emerald-50/40 transition-all group shadow-sm no-underline">
+                        <div class="w-10 h-10 bg-amber-100 rounded-lg flex items-center justify-center group-hover:bg-amber-200 transition-colors">
+                            <span class="material-symbols-outlined text-amber-700 text-[18px]">insert_chart</span>
+                        </div>
+                        <span class="text-[13px] font-semibold text-zinc-700 group-hover:text-amber-700">Analytics</span>
+                    </a>
+                </div>
+            </section>
+
+            <!-- Middle Row: Create Listing + Analytics Preview -->
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 mb-8">
+                <!-- List New Crop Form -->
+                <div class="lg:col-span-5 bg-white rounded-xl border border-zinc-200 shadow-sm p-6 fade-up">
+                    <h3 class="text-[16px] font-bold text-emerald-950 mb-5 flex items-center gap-2">
+                        <span class="material-symbols-outlined text-emerald-600 text-[20px]">add_circle</span> List New Crop
+                    </h3>
+                    <form id="createContractForm" class="space-y-4">
+                        <div>
+                            <label class="block text-[11px] font-semibold text-zinc-500 uppercase tracking-widest mb-1.5">Crop Type</label>
+                            <input type="text" id="cropName" placeholder="e.g., Organic Wheat, Corn..." class="w-full px-4 py-2.5 rounded-lg border border-zinc-300 bg-white focus:border-emerald-500 focus:ring-2 focus:ring-emerald-100 outline-none transition-all text-[14px]" required/>
+                        </div>
+                        <div class="grid grid-cols-2 gap-4">
+                            <div>
+                                <label class="block text-[11px] font-semibold text-zinc-500 uppercase tracking-widest mb-1.5">Expected Yield</label>
+                                <input type="text" id="cropQty" placeholder="e.g., 50 Tons" class="w-full px-4 py-2.5 rounded-lg border border-zinc-300 bg-white focus:border-emerald-500 focus:ring-2 focus:ring-emerald-100 outline-none transition-all text-[14px]" required/>
+                            </div>
+                            <div>
+                                <label class="block text-[11px] font-semibold text-zinc-500 uppercase tracking-widest mb-1.5">Asking Price (₹)</label>
+                                <input type="number" id="cropPrice" placeholder="Total INR" class="w-full px-4 py-2.5 rounded-lg border border-zinc-300 bg-white focus:border-emerald-500 focus:ring-2 focus:ring-emerald-100 outline-none transition-all text-[14px]" required/>
+                            </div>
+                        </div>
+                        <div class="mb-2">
+                             <label class="block text-[11px] font-semibold text-zinc-500 uppercase tracking-widest mb-1.5">Harvest Location</label>
+                             <input type="text" id="cropLocation" placeholder="e.g., Punjab, Nashik..." class="w-full px-4 py-2.5 rounded-lg border border-zinc-300 bg-white focus:border-emerald-500 focus:ring-2 focus:ring-emerald-100 outline-none transition-all text-[14px]" required/>
+                        </div>
+                        <button type="submit" class="w-full py-2.5 bg-emerald-800 text-white font-semibold rounded-lg hover:bg-emerald-900 transition-all shadow-sm active:scale-[0.98] flex items-center justify-center gap-2 text-[14px] mt-2">
+                            <span class="material-symbols-outlined text-[18px]">publish</span> Publish Listing
+                        </button>
+                    </form>
+                </div>
+
+                <!-- E. Analytics Preview -->
+                <div class="lg:col-span-7 bg-white rounded-xl border border-zinc-200 shadow-sm p-6 fade-up">
+                    <div class="flex justify-between items-center mb-5">
+                        <h3 class="text-[16px] font-bold text-emerald-950 flex items-center gap-2">
+                            <span class="material-symbols-outlined text-emerald-600 text-[20px]">insert_chart</span> Price Trends
+                        </h3>
+                        <div class="flex gap-4 text-[11px] font-semibold text-zinc-500">
+                            <span class="flex items-center gap-1.5"><span class="w-2.5 h-2.5 rounded-full bg-emerald-600 inline-block"></span> Current</span>
+                            <span class="flex items-center gap-1.5"><span class="w-2.5 h-2.5 rounded-full bg-zinc-300 inline-block"></span> Forecast</span>
+                        </div>
+                    </div>
+                    <div class="h-[180px] flex items-end gap-2 md:gap-4 px-2 relative">
+                        <!-- Grid lines -->
+                        <div class="absolute w-full h-px bg-zinc-100 bottom-0 left-0"></div>
+                        <div class="absolute w-full h-px bg-zinc-100 bottom-1/4 left-0"></div>
+                        <div class="absolute w-full h-px bg-zinc-100 bottom-1/2 left-0"></div>
+                        <div class="absolute w-full h-px bg-zinc-100 bottom-3/4 left-0"></div>
+                        <!-- Bars -->
+                        <div class="flex-1 bg-emerald-200 rounded-t-md relative z-10 hover:bg-emerald-300 transition-colors cursor-pointer" style="height:30%" title="Jan: ₹320"></div>
+                        <div class="flex-1 bg-emerald-300 rounded-t-md relative z-10 hover:bg-emerald-400 transition-colors cursor-pointer" style="height:45%" title="Feb: ₹410"></div>
+                        <div class="flex-1 bg-emerald-400 rounded-t-md relative z-10 hover:bg-emerald-500 transition-colors cursor-pointer" style="height:38%" title="Mar: ₹380"></div>
+                        <div class="flex-1 bg-emerald-600 rounded-t-md relative z-10 hover:bg-emerald-700 transition-colors cursor-pointer" style="height:60%" title="Apr: ₹520"></div>
+                        <div class="flex-1 bg-emerald-800 rounded-t-md relative z-10 hover:bg-emerald-900 transition-colors cursor-pointer" style="height:85%" title="May: ₹680"></div>
+                        <div class="flex-1 bg-zinc-200 rounded-t-md relative z-10 hover:bg-zinc-300 transition-colors cursor-pointer border border-dashed border-zinc-300" style="height:72%" title="Jun (est): ₹610"></div>
+                        <div class="flex-1 bg-zinc-200 rounded-t-md relative z-10 hover:bg-zinc-300 transition-colors cursor-pointer border border-dashed border-zinc-300" style="height:78%" title="Jul (est): ₹650"></div>
+                    </div>
+                    <div class="flex justify-between mt-3 px-1 text-[10px] font-semibold text-zinc-400 uppercase tracking-wider">
+                        <span>Jan</span><span>Feb</span><span>Mar</span><span>Apr</span><span>May</span><span>Jun</span><span>Jul</span>
+                    </div>
+                    <a href="analytics.html" class="mt-4 inline-flex items-center gap-1 text-[12px] text-emerald-700 font-semibold hover:text-emerald-800 transition-colors">
+                        View Full Analytics <span class="material-symbols-outlined text-[14px]">arrow_forward</span>
+                    </a>
+                </div>
+            </div>
+
+            <!-- Bottom Row: Recent Contracts + Alerts -->
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 pb-10">
+                <!-- D. Recent Activity / My Listings -->
+                <div class="lg:col-span-8 bg-white rounded-xl border border-zinc-200 shadow-sm p-6 fade-up">
+                    <div class="flex justify-between items-center mb-5">
+                        <h3 class="text-[16px] font-bold text-emerald-950 flex items-center gap-2">
+                            <span class="material-symbols-outlined text-emerald-600 text-[20px]">list_alt</span> Recent Contracts
+                        </h3>
+                        <a href="contracts.html" class="text-[12px] text-emerald-700 font-semibold hover:text-emerald-800 flex items-center gap-1">
+                            View All <span class="material-symbols-outlined text-[14px]">arrow_forward</span>
+                        </a>
+                    </div>
+                    <div id="activeListings" class="max-h-[380px] overflow-y-auto custom-scrollbar space-y-3">
+                        <!-- Rendered by script.js -->
+                    </div>
+                </div>
+
+                <!-- F. Alerts / Notifications -->
+                <div class="lg:col-span-4 bg-white rounded-xl border border-zinc-200 shadow-sm p-6 fade-up">
+                    <h3 class="text-[16px] font-bold text-emerald-950 mb-5 flex items-center gap-2">
+                        <span class="material-symbols-outlined text-amber-600 text-[20px]">notifications_active</span> Alerts
+                    </h3>
+                    <div class="space-y-3">
+                        <!-- Alert 1 -->
+                        <div class="flex gap-3 p-3 bg-emerald-50 rounded-lg border border-emerald-100">
+                            <div class="w-9 h-9 bg-emerald-200 rounded-lg flex items-center justify-center shrink-0">
+                                <span class="material-symbols-outlined text-emerald-800 text-[16px]">handshake</span>
+                            </div>
+                            <div>
+                                <p class="text-[13px] font-semibold text-emerald-900">New buyer offer received</p>
+                                <p class="text-[11px] text-zinc-500 mt-0.5">Global Grain Co. wants Organic Wheat</p>
+                                <p class="text-[10px] text-zinc-400 mt-1">2 hours ago</p>
+                            </div>
+                        </div>
+                        <!-- Alert 2 -->
+                        <div class="flex gap-3 p-3 bg-amber-50 rounded-lg border border-amber-100">
+                            <div class="w-9 h-9 bg-amber-200 rounded-lg flex items-center justify-center shrink-0">
+                                <span class="material-symbols-outlined text-amber-800 text-[16px]">trending_up</span>
+                            </div>
+                            <div>
+                                <p class="text-[13px] font-semibold text-amber-900">Price change detected</p>
+                                <p class="text-[11px] text-zinc-500 mt-0.5">Soybean futures up 4.2%</p>
+                                <p class="text-[10px] text-zinc-400 mt-1">5 hours ago</p>
+                            </div>
+                        </div>
+                        <!-- Alert 3 -->
+                        <div class="flex gap-3 p-3 bg-blue-50 rounded-lg border border-blue-100">
+                            <div class="w-9 h-9 bg-blue-200 rounded-lg flex items-center justify-center shrink-0">
+                                <span class="material-symbols-outlined text-blue-800 text-[16px]">verified</span>
+                            </div>
+                            <div>
+                                <p class="text-[13px] font-semibold text-blue-900">Contract verified</p>
+                                <p class="text-[11px] text-zinc-500 mt-0.5">Wheat Purchase #882 confirmed</p>
+                                <p class="text-[10px] text-zinc-400 mt-1">1 day ago</p>
+                            </div>
+                        </div>
+                        <!-- Alert 4 -->
+                        <div class="flex gap-3 p-3 bg-red-50 rounded-lg border border-red-100">
+                            <div class="w-9 h-9 bg-red-200 rounded-lg flex items-center justify-center shrink-0">
+                                <span class="material-symbols-outlined text-red-800 text-[16px]">water_drop</span>
+                            </div>
+                            <div>
+                                <p class="text-[13px] font-semibold text-red-900">Crop alert</p>
+                                <p class="text-[11px] text-zinc-500 mt-0.5">Field B3 irrigation needed</p>
+                                <p class="text-[10px] text-zinc-400 mt-1">3 days ago</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+    <script>
+        // Mobile sidebar toggle
+        const sidebar = document.getElementById('sidebar');
+        const overlay = document.getElementById('sidebarOverlay');
+        document.getElementById('menuToggle')?.addEventListener('click', () => {
+            sidebar.classList.toggle('open');
+            overlay.classList.toggle('hidden');
+        });
+        function closeSidebar() {
+            sidebar.classList.remove('open');
+            overlay.classList.add('hidden');
+        }
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="js/supabase-config.js"></script>
+    <script src="js/script.js"></script>
+</body>
+</html>

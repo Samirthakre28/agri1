@@ -10,7 +10,7 @@ export default function Layout({ children }) {
       <Navbar onMenuToggle={() => setIsSidebarOpen(!isSidebarOpen)} />
       <Sidebar isOpen={isSidebarOpen} onClose={() => setIsSidebarOpen(false)} />
       <main className="lg:ml-64 pt-16 min-h-screen">
-        <div className="p-5 md:p-8 max-w-[1400px] mx-auto">
+        <div className="p-5 md:p-8 w-full">
           {children}
         </div>
       </main>

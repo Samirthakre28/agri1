@@ -1,5 +1,7 @@
 const express = require('express');
 const cors = require('cors');
+const helmet = require('helmet');
+const compression = require('compression');
 const { createClient } = require('@supabase/supabase-js');
 require('dotenv').config();
 
@@ -10,7 +12,12 @@ const PORT = process.env.PORT || 5000;
 const supabase = createClient(process.env.SUPABASE_URL, process.env.SUPABASE_KEY);
 
 // Middleware
-app.use(cors({ origin: process.env.FRONTEND_URL || '*' }));
+app.use(helmet()); // Security headers
+app.use(compression()); // Compress responses
+app.use(cors({ 
+    origin: process.env.FRONTEND_URL ? process.env.FRONTEND_URL.split(',') : '*',
+    credentials: true
+}));
 app.use(express.json());
 
 // Request logger

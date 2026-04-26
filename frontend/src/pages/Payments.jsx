@@ -62,7 +62,7 @@ export default function Payments() {
                <span className="text-[10px] font-bold text-emerald-300 uppercase tracking-widest bg-white/5 px-2 py-1 rounded">Secured Escrow</span>
             </div>
             <div className="mt-4">
-              <p className="text-emerald-200 font-medium text-[12px] opacity-80">Payment distribution is secured by AgriContract Escrow.</p>
+              <p className="text-emerald-200 font-medium text-[12px] opacity-80">Payment distribution is secured by Farm Link Escrow.</p>
             </div>
         </div>
       </div>

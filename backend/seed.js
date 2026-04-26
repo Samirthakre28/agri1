@@ -5,7 +5,7 @@ const Crop = require('./models/Crop');
 const Offer = require('./models/Offer');
 const Contract = require('./models/Contract');
 
-const MONGO_URI = 'mongodb://127.0.0.1:27017/agricontract';
+const MONGO_URI = 'mongodb://127.0.0.1:27017/farmlink';
 
 const seedData = async () => {
     try {

@@ -73,10 +73,10 @@ export default function Auth() {
             <span className="material-symbols-outlined text-[42px] text-emerald-700 bg-emerald-50 w-20 h-20 flex items-center justify-center rounded-2xl mb-3 shadow-sm border border-emerald-100">
               agriculture
             </span>
-            <h1 className="text-[24px] font-bold tracking-tight">AgriContract</h1>
+            <h1 className="text-[24px] font-bold tracking-tight">Farm Link</h1>
           </Link>
           <p className="text-[14px] text-zinc-500 mt-1">
-            {mode === 'signup' ? 'Join AgriContract' : mode === 'forgot' ? 'Reset your password' : 'Login to your account'}
+            {mode === 'signup' ? 'Join Farm Link' : mode === 'forgot' ? 'Reset your password' : 'Login to your account'}
           </p>
         </div>
 

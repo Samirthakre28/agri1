@@ -231,7 +231,7 @@ export default function Marketplace() {
                               <div className="border border-emerald-500 bg-emerald-50 p-3 rounded-xl flex items-center justify-between cursor-pointer transition-all hover:bg-emerald-100">
                                   <div className="flex items-center gap-3">
                                       <span className="material-symbols-outlined text-emerald-700">credit_card</span>
-                                      <span className="font-bold text-emerald-950 text-[14px]">AgriContract Corporate UPI</span>
+                                      <span className="font-bold text-emerald-950 text-[14px]">Farm Link Corporate UPI</span>
                                   </div>
                                   <span className="w-4 h-4 rounded-full bg-emerald-500 ring-4 ring-emerald-100 flex-shrink-0"></span>
                               </div>

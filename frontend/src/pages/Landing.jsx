@@ -11,7 +11,7 @@ export default function Landing() {
             <div className="w-10 h-10 rounded-xl bg-emerald-600 flex items-center justify-center text-white shadow-lg shadow-emerald-600/20 group-hover:scale-110 transition-all duration-500">
               <span className="material-symbols-outlined text-2xl">agriculture</span>
             </div>
-            <span className="text-xl font-black tracking-tight text-emerald-950 uppercase">AgriContract</span>
+            <span className="text-xl font-black tracking-tight text-emerald-950 uppercase">Farm Link</span>
           </Link>
           <div className="hidden md:flex items-center gap-10">
             <Link className="text-[13px] font-bold text-zinc-500 hover:text-emerald-700 transition-colors" to="#features">Features</Link>
@@ -90,7 +90,7 @@ export default function Landing() {
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-16 items-center">
             <div className="lg:col-span-4 fade-up">
               <h2 className="text-4xl font-black text-emerald-950 leading-tight mb-6">Why settle for <span className="text-zinc-400">uncertainty?</span></h2>
-              <p className="text-zinc-500 mb-8 font-medium">The traditional market relies on luck. AgriContract relies on data and secure contracts.</p>
+              <p className="text-zinc-500 mb-8 font-medium">The traditional market relies on luck. Farm Link relies on data and secure contracts.</p>
               <div className="space-y-4">
                 {['Direct Market Access', 'Payment Security', 'Price Protection'].map(item => (
                   <div key={item} className="flex items-center gap-3">
@@ -115,7 +115,7 @@ export default function Landing() {
               </div>
               <div className="bg-emerald-950 p-8 rounded-[40px] shadow-2xl relative overflow-hidden group border-4 border-emerald-500/10">
                 <div className="absolute top-0 right-0 w-32 h-32 bg-emerald-800 rounded-full -mr-16 -mt-16 opacity-30 group-hover:scale-125 transition-transform duration-700"></div>
-                <span className="text-[11px] font-black text-emerald-400 uppercase tracking-widest mb-4 block">AgriContract Way</span>
+                <span className="text-[11px] font-black text-emerald-400 uppercase tracking-widest mb-4 block">Farm Link Way</span>
                 <h3 className="text-2xl font-black text-white mb-6 underline decoration-emerald-500 decoration-4">Digital Certainty</h3>
                 <ul className="space-y-4">
                   {['Transparent, verified pricing', 'Contract signed before planting', '10% Advance deposit instant', 'Total financial protection'].map(i => (
@@ -173,7 +173,7 @@ export default function Landing() {
         <div className="max-w-7xl mx-auto px-6 flex flex-col md:flex-row items-center justify-between gap-8">
           <Link className="flex items-center gap-2 no-underline group" to="/">
             <div className="w-8 h-8 rounded-lg bg-emerald-600 flex items-center justify-center text-white"><span className="material-symbols-outlined text-xl">agriculture</span></div>
-            <span className="text-lg font-black tracking-tight text-emerald-950 uppercase">AgriContract</span>
+            <span className="text-lg font-black tracking-tight text-emerald-950 uppercase">Farm Link</span>
           </Link>
           <div className="flex gap-8 items-center">
             {['Platform', 'Resources', 'Support', 'Terms'].map(link => (
@@ -181,7 +181,7 @@ export default function Landing() {
             ))}
           </div>
           <div className="text-right">
-            <p className="text-[11px] text-zinc-400 font-bold uppercase tracking-widest">&copy; 2026 AgriContract. India's Agricultural Future.</p>
+            <p className="text-[11px] text-zinc-400 font-bold uppercase tracking-widest">&copy; 2026 Farm Link. India's Agricultural Future.</p>
           </div>
         </div>
       </footer>

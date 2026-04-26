@@ -185,7 +185,7 @@ export default function Navbar({ onMenuToggle }) {
                 <div className="flex items-center justify-between text-[11px] text-zinc-400">
                   <span className="flex items-center gap-1.5 font-medium">
                     <span className="material-symbols-outlined text-[14px]">agriculture</span>
-                    AgriContract v1.0
+                    Farm Link v1.0
                   </span>
                   <span className="flex items-center gap-1">
                     <span className="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>

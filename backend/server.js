@@ -260,7 +260,7 @@ apiRouter.get('/health', (req, res) => {
 app.use('/api', apiRouter);
 
 // Health Check on Root
-app.get('/', (req, res) => res.json({ success: true, message: "AgriContract API is alive" }));
+app.get('/', (req, res) => res.json({ success: true, message: "Farm Link API is alive" }));
 
 // Global Error Handler (must have 4 params to work as Express error handler)
 app.use((err, req, res, next) => {

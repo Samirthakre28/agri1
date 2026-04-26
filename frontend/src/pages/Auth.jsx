@@ -3,7 +3,7 @@ import { useNavigate, useLocation, Link } from 'react-router-dom';
 import { AuthContext } from '../App';
 import { useToast } from '../context/ToastContext';
 import * as api from '../services/supabase';
-import Button from '../components/Button';
+import Button from '../components/ui/Button';
 
 export default function Auth() {
   const { setSession } = useContext(AuthContext);

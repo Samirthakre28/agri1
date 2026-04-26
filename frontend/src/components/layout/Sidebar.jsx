@@ -1,7 +1,7 @@
 import React, { useContext } from 'react';
 import { NavLink } from 'react-router-dom';
-import { AuthContext } from '../App';
-import { LanguageContext } from '../context/LanguageContext';
+import { AuthContext } from '../../App';
+import { LanguageContext } from '../../context/LanguageContext';
 
 export default function Sidebar({ isOpen, onClose }) {
   const { session } = useContext(AuthContext);

@@ -1,8 +1,8 @@
 import React, { useContext, useState } from 'react';
-import { AuthContext } from '../App';
-import { LanguageContext } from '../context/LanguageContext';
-import { useToast } from '../context/ToastContext';
-import { supabase } from '../services/supabase';
+import { AuthContext } from '../../App';
+import { LanguageContext } from '../../context/LanguageContext';
+import { useToast } from '../../context/ToastContext';
+import { supabase } from '../../services/supabase';
 
 // Generate initials-based avatar
 const Avatar = ({ name, size = 'h-9 w-9', textSize = 'text-[13px]' }) => {

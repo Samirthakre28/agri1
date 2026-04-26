@@ -9,7 +9,7 @@ import Crops from './pages/Crops';
 import Contracts from './pages/Contracts';
 import Payments from './pages/Payments';
 import ResetPassword from './pages/ResetPassword';
-import Layout from './components/Layout';
+import Layout from './components/layout/Layout';
 import { LanguageProvider } from './context/LanguageContext';
 import { ToastProvider } from './context/ToastContext';
 import { supabase } from './services/supabase';

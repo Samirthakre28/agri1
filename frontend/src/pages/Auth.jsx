@@ -175,25 +175,45 @@ export default function Auth() {
               </button>
 
               {mode === 'login' && (
-                <div className="mt-6 pt-6 border-t border-zinc-100 text-center">
-                  <p className="text-[11px] font-bold text-zinc-400 uppercase tracking-widest mb-3">Demo Accounts</p>
-                  <div className="grid grid-cols-1 gap-2">
+                <div className="mt-8 pt-8 border-t border-zinc-100">
+                  <div className="text-center mb-4">
+                    <p className="text-[11px] font-bold text-zinc-400 uppercase tracking-widest">Try Instant Demo</p>
+                    <p className="text-[10px] text-emerald-600 font-medium mt-1">Note: These are shared demo accounts for testing.</p>
+                  </div>
+                  
+                  <div className="grid grid-cols-2 gap-3">
                     <button 
                       type="button"
-                      onClick={() => setFormData({...formData, contact: 'seller@farmlink.com', password: 'password123'})}
-                      className="text-[12px] py-2 px-4 rounded-lg bg-emerald-50 text-emerald-700 font-semibold hover:bg-emerald-100 transition-colors border border-emerald-100"
+                      onClick={async () => {
+                        const res = await api.login('seller@farmlink.com', 'password123');
+                        if (res.success) {
+                          toast.success('Logged in as Demo Seller! 🌾');
+                          setSession(res.user);
+                          navigate('/dashboard');
+                        }
+                      }}
+                      className="flex flex-col items-center gap-2 p-4 rounded-2xl bg-emerald-50 border border-emerald-100 hover:bg-emerald-100 transition-all group"
                     >
-                      Login as Seller (Farmer)
+                      <span className="material-symbols-outlined text-emerald-600 group-hover:scale-110 transition-transform">agriculture</span>
+                      <span className="text-[13px] font-bold text-emerald-800">Seller Demo</span>
                     </button>
+                    
                     <button 
                       type="button"
-                      onClick={() => setFormData({...formData, contact: 'buyer@farmlink.com', password: 'password123'})}
-                      className="text-[12px] py-2 px-4 rounded-lg bg-blue-50 text-blue-700 font-semibold hover:bg-blue-100 transition-colors border border-blue-100"
+                      onClick={async () => {
+                        const res = await api.login('buyer@farmlink.com', 'password123');
+                        if (res.success) {
+                          toast.success('Logged in as Demo Buyer! 🛒');
+                          setSession(res.user);
+                          navigate('/dashboard');
+                        }
+                      }}
+                      className="flex flex-col items-center gap-2 p-4 rounded-2xl bg-blue-50 border border-blue-100 hover:bg-blue-100 transition-all group"
                     >
-                      Login as Buyer (Procurement)
+                      <span className="material-symbols-outlined text-blue-600 group-hover:scale-110 transition-transform">shopping_cart</span>
+                      <span className="text-[13px] font-bold text-blue-800">Buyer Demo</span>
                     </button>
                   </div>
-                  <p className="text-[10px] text-zinc-400 mt-2">Password: <span className="font-mono">password123</span></p>
                 </div>
               )}
 

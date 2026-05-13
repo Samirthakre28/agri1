@@ -1,7 +1,6 @@
 import React, { createContext, useState, useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import Landing from './pages/Landing';
-import Auth from './pages/Auth';
 import Dashboard from './pages/Dashboard';
 import Marketplace from './pages/Marketplace';
 import Analytics from './pages/Analytics';
@@ -100,7 +99,6 @@ export default function App() {
           <Router>
             <Routes>
               <Route path="/" element={session ? <Navigate to="/dashboard" /> : <Landing />} />
-              <Route path="/login" element={session ? <Navigate to="/dashboard" /> : <Auth />} />
               
               <Route path="/dashboard" element={<ProtectedRoute><Dashboard /></ProtectedRoute>} />
               <Route path="/marketplace" element={<ProtectedRoute><Marketplace /></ProtectedRoute>} />
@@ -109,6 +107,7 @@ export default function App() {
               <Route path="/contracts" element={<ProtectedRoute><Contracts /></ProtectedRoute>} />
               <Route path="/payments" element={<ProtectedRoute><Payments /></ProtectedRoute>} />
               <Route path="/reset-password" element={<ResetPassword />} />
+              <Route path="*" element={<Navigate to="/" />} />
             </Routes>
           </Router>
         </LanguageProvider>

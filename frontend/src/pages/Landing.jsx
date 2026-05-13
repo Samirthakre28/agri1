@@ -1,7 +1,20 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
+import React, { useContext } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+import { AuthContext } from '../App';
+import * as api from '../services/supabase';
 
 export default function Landing() {
+  const { setSession } = useContext(AuthContext);
+  const navigate = useNavigate();
+
+  const handleDemoLogin = async (email, role) => {
+    const res = await api.login(email, 'password123');
+    if (res.success) {
+      setSession(res.user);
+      navigate('/dashboard');
+    }
+  };
+
   return (
     <div className="min-h-screen bg-white font-['Poppins',sans-serif] selection:bg-emerald-100 selection:text-emerald-900">
       {/* Navigation */}
@@ -18,9 +31,19 @@ export default function Landing() {
             <Link className="text-[13px] font-bold text-zinc-500 hover:text-emerald-700 transition-colors" to="#how-it-works">How it Works</Link>
             <Link className="text-[13px] font-bold text-zinc-500 hover:text-emerald-700 transition-colors" to="#advantage">Advantage</Link>
           </div>
-          <div className="flex items-center gap-4">
-            <Link className="hidden sm:block text-[14px] font-bold text-zinc-600 hover:text-emerald-700" to="/login">Login</Link>
-            <Link className="px-8 py-3 bg-emerald-800 text-white text-[14px] font-bold rounded-2xl hover:bg-emerald-950 transition-all shadow-xl shadow-emerald-900/20 active:scale-95" to="/login?mode=signup">Explore Now</Link>
+          <div className="flex items-center gap-3">
+            <button 
+              onClick={() => handleDemoLogin('seller@farmlink.com', 'Seller')}
+              className="px-5 py-2.5 bg-emerald-50 text-emerald-700 text-[13px] font-bold rounded-xl hover:bg-emerald-100 transition-all"
+            >
+              Seller Demo
+            </button>
+            <button 
+              onClick={() => handleDemoLogin('buyer@farmlink.com', 'Buyer')}
+              className="px-5 py-2.5 bg-zinc-900 text-white text-[13px] font-bold rounded-xl hover:bg-black transition-all shadow-lg shadow-zinc-200"
+            >
+              Buyer Demo
+            </button>
           </div>
         </div>
       </header>
@@ -43,12 +66,39 @@ export default function Landing() {
               <p className="text-xl text-zinc-500 leading-relaxed max-w-xl mb-12 font-medium">
                 The first platform that lets you sell your crops <span className="text-emerald-900 font-bold underline decoration-emerald-200 decoration-4">before they ever leave the soil</span>. Fixed prices, verified buyers. 
               </p>
-              <div className="flex flex-col sm:row gap-5">
-                <Link className="px-10 py-5 bg-emerald-800 text-white font-bold rounded-[22px] hover:bg-emerald-950 transition-all shadow-2xl shadow-emerald-900/30 active:scale-95 text-[18px] flex items-center justify-center gap-3 group" to="/login?mode=signup">
-                  Launch Your Storefront
-                  <span className="material-symbols-outlined transition-transform group-hover:translate-x-2">arrow_forward</span>
-                </Link>
-                <div className="flex items-center gap-6 px-4">
+              
+              <div className="bg-zinc-50/50 border border-zinc-100 p-8 rounded-[40px] mb-10">
+                 <p className="text-[11px] font-black text-zinc-400 uppercase tracking-widest mb-6 text-center">Select your role to start Demo</p>
+                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <button 
+                      onClick={() => handleDemoLogin('seller@farmlink.com', 'Seller')}
+                      className="flex flex-col items-center gap-3 p-6 bg-white border border-emerald-100 rounded-[32px] hover:shadow-xl hover:shadow-emerald-900/5 transition-all group"
+                    >
+                      <div className="w-14 h-14 rounded-2xl bg-emerald-50 text-emerald-600 flex items-center justify-center group-hover:scale-110 transition-transform">
+                        <span className="material-symbols-outlined text-3xl">agriculture</span>
+                      </div>
+                      <div className="text-center">
+                        <p className="font-black text-emerald-950 text-lg">Farmer</p>
+                        <p className="text-[11px] text-zinc-400 font-bold">Sell Your Crops</p>
+                      </div>
+                    </button>
+                    
+                    <button 
+                      onClick={() => handleDemoLogin('buyer@farmlink.com', 'Buyer')}
+                      className="flex flex-col items-center gap-3 p-6 bg-white border border-blue-100 rounded-[32px] hover:shadow-xl hover:shadow-blue-900/5 transition-all group"
+                    >
+                      <div className="w-14 h-14 rounded-2xl bg-blue-50 text-blue-600 flex items-center justify-center group-hover:scale-110 transition-transform">
+                        <span className="material-symbols-outlined text-3xl">shopping_cart</span>
+                      </div>
+                      <div className="text-center">
+                        <p className="font-black text-emerald-950 text-lg">Buyer</p>
+                        <p className="text-[11px] text-zinc-400 font-bold">Procure Stock</p>
+                      </div>
+                    </button>
+                 </div>
+              </div>
+
+              <div className="flex items-center gap-6 px-4">
                   <div className="flex flex-col">
                     <span className="text-2xl font-black text-emerald-950 leading-none">₹500Cr+</span>
                     <span className="text-[11px] text-zinc-400 font-bold uppercase tracking-tighter">Volume Processed</span>

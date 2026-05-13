@@ -72,7 +72,7 @@ export default function App() {
                 setSession(newSession);
             }
         });
-        subscription = authSubscription;
+        subscription = authSubscription?.subscription;
     }
 
     return () => {

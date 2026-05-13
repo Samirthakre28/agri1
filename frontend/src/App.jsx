@@ -14,7 +14,7 @@ import { ToastProvider } from './context/ToastContext';
 import { supabase } from './services/supabase';
 import { ENV } from './config/env';
 
-export const AuthContext = createContext();
+import { AuthContext } from './context/AuthContext';
 
 export default function App() {
   const [session, setSession] = useState(null);

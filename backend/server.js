@@ -8,16 +8,52 @@ require('dotenv').config();
 const app = express();
 const PORT = process.env.PORT || 5000;
 
+// ─── STARTUP VALIDATION ───────────────────────────────────
+if (!process.env.SUPABASE_URL) {
+    console.error("❌ FATAL: SUPABASE_URL is not defined. Set it in environment variables.");
+    process.exit(1);
+}
+if (!process.env.SUPABASE_KEY) {
+    console.error("❌ FATAL: SUPABASE_KEY is not defined. Set it in environment variables.");
+    process.exit(1);
+}
+if (!process.env.FRONTEND_URL) {
+    console.warn("⚠️  WARNING: FRONTEND_URL is not set. CORS will allow all origins (unsafe for production).");
+}
+
+console.log(`🌍 Environment: ${process.env.NODE_ENV || 'development'}`);
+console.log(`🔗 Supabase URL: ${process.env.SUPABASE_URL}`);
+console.log(`🌐 Frontend URL: ${process.env.FRONTEND_URL || '* (all origins)'}`);
+
 // Supabase Init
 const supabase = createClient(process.env.SUPABASE_URL, process.env.SUPABASE_KEY);
+
+// ─── CORS Configuration ──────────────────────────────────
+const allowedOrigins = process.env.FRONTEND_URL
+    ? process.env.FRONTEND_URL.split(',').map(url => url.trim())
+    : [];
+
+const corsOptions = {
+    origin: (origin, callback) => {
+        // Allow requests with no origin (mobile apps, curl, server-to-server)
+        if (!origin) return callback(null, true);
+        // If FRONTEND_URL is not set, allow all
+        if (allowedOrigins.length === 0) return callback(null, true);
+        // Check if origin is in allowed list
+        if (allowedOrigins.includes(origin)) return callback(null, true);
+        // Reject
+        console.warn(`⛔ CORS blocked request from: ${origin}`);
+        return callback(new Error('Not allowed by CORS'));
+    },
+    credentials: true,
+    methods: ['GET', 'POST', 'PATCH', 'PUT', 'DELETE', 'OPTIONS'],
+    allowedHeaders: ['Content-Type', 'Authorization'],
+};
 
 // Middleware
 app.use(helmet()); // Security headers
 app.use(compression()); // Compress responses
-app.use(cors({ 
-    origin: process.env.FRONTEND_URL ? process.env.FRONTEND_URL.split(',') : '*',
-    credentials: true
-}));
+app.use(cors(corsOptions));
 app.use(express.json());
 
 // Request logger
@@ -280,6 +316,12 @@ app.use((req, res) => {
     res.status(404).json({ success: false, message: `Route ${req.method} ${req.url} not found` });
 });
 
-app.listen(PORT, () => {
-    console.log(`Server running on port ${PORT}`);
-});
+// Only listen when running locally (not on Vercel serverless)
+if (!process.env.VERCEL) {
+    app.listen(PORT, () => {
+        console.log(`Server running on port ${PORT}`);
+    });
+}
+
+// Export for Vercel serverless
+module.exports = app;

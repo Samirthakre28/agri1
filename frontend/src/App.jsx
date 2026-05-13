@@ -12,6 +12,7 @@ import Layout from './components/layout/Layout';
 import { LanguageProvider } from './context/LanguageContext';
 import { ToastProvider } from './context/ToastContext';
 import { supabase } from './services/supabase';
+import { ENV } from './config/env';
 
 export const AuthContext = createContext();
 
@@ -75,7 +76,7 @@ export default function App() {
     }
 
     return () => {
-        subscription?.subscription?.unsubscribe();
+        subscription?.unsubscribe();
     };
   }, []);
 

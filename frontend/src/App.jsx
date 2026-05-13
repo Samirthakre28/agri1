@@ -22,54 +22,61 @@ export default function App() {
 
   useEffect(() => {
     const fetchSession = async () => {
-      // 1. Check for hardcoded demo session in localStorage first
-      const savedSession = localStorage.getItem('farmlink_demo_session');
-      if (savedSession) {
-        setSession(JSON.parse(savedSession));
-        setLoading(false);
-        return;
-      }
+      try {
+        // 1. Check for hardcoded demo session in localStorage first
+        const savedSession = localStorage.getItem('farmlink_demo_session');
+        if (savedSession) {
+          setSession(JSON.parse(savedSession));
+          return;
+        }
 
-      // 2. Otherwise check Supabase
-      const { data: { session: supaSession } } = await supabase.auth.getSession();
-      
-      if (supaSession) {
-          const { data: { user } } = await supabase.auth.getUser();
-          if (user) {
-              const newSession = {
-                  id: user.id, email: user.email,
-                  name: user.user_metadata?.display_name || user.user_metadata?.name,
-                  role: user.user_metadata?.role,
-                  contact: user.user_metadata?.contact
-              };
-              setSession(newSession);
-          }
-      } else {
-          setSession(null);
+        // 2. Otherwise check Supabase (only if URL is configured)
+        if (supabase && ENV.SUPABASE_URL) {
+            const { data: { session: supaSession } } = await supabase.auth.getSession();
+            if (supaSession) {
+                const { data: { user } } = await supabase.auth.getUser();
+                if (user) {
+                    const newSession = {
+                        id: user.id, email: user.email,
+                        name: user.user_metadata?.display_name || user.user_metadata?.name,
+                        role: user.user_metadata?.role,
+                        contact: user.user_metadata?.contact
+                    };
+                    setSession(newSession);
+                }
+            }
+        }
+      } catch (err) {
+        console.error("Session fetch error:", err);
+      } finally {
+        setLoading(false);
       }
-      setLoading(false);
     };
     
     fetchSession();
 
-    const { data: { subscription } } = supabase.auth.onAuthStateChange(async (event, currentSupaSession) => {
-        if (event === 'SIGNED_OUT') {
-            setSession(null);
-            localStorage.removeItem('farmlink_demo_session');
-        } else if (event === 'SIGNED_IN' && currentSupaSession) {
-            const user = currentSupaSession.user;
-            const newSession = {
-                id: user.id, email: user.email,
-                name: user.user_metadata?.display_name || user.user_metadata?.name,
-                role: user.user_metadata?.role,
-                contact: user.user_metadata?.contact
-            };
-            setSession(newSession);
-        }
-    });
+    let subscription = null;
+    if (supabase && ENV.SUPABASE_URL) {
+        const { data: authSubscription } = supabase.auth.onAuthStateChange(async (event, currentSupaSession) => {
+            if (event === 'SIGNED_OUT') {
+                setSession(null);
+                localStorage.removeItem('farmlink_demo_session');
+            } else if (event === 'SIGNED_IN' && currentSupaSession) {
+                const user = currentSupaSession.user;
+                const newSession = {
+                    id: user.id, email: user.email,
+                    name: user.user_metadata?.display_name || user.user_metadata?.name,
+                    role: user.user_metadata?.role,
+                    contact: user.user_metadata?.contact
+                };
+                setSession(newSession);
+            }
+        });
+        subscription = authSubscription;
+    }
 
     return () => {
-        subscription?.unsubscribe();
+        subscription?.subscription?.unsubscribe();
     };
   }, []);
 

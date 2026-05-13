@@ -110,7 +110,6 @@ export default function Landing() {
                   </div>
                 </div>
               </div>
-            </div>
             <div className="relative fade-up-d2">
               <div className="absolute -top-10 -left-10 w-40 h-40 bg-zinc-100 rounded-full blur-3xl opacity-50"></div>
               <div className="relative group">

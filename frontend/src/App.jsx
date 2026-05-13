@@ -81,7 +81,9 @@ export default function App() {
   }, []);
 
   const logout = async () => {
-    await supabase.auth.signOut();
+    if (supabase) {
+        await supabase.auth.signOut();
+    }
     localStorage.removeItem('farmlink_demo_session');
     setSession(null);
   };

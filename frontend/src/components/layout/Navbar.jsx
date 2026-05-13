@@ -40,6 +40,7 @@ export default function Navbar({ onMenuToggle }) {
     e.preventDefault();
     if (newPassword.length < 6) return toast.warning("Password must be at least 6 characters.");
     try {
+      if (!supabase) throw new Error("Database connection is not configured.");
       const { error } = await supabase.auth.updateUser({ password: newPassword });
       if (error) throw error;
       toast.success("🔒 Password updated successfully!");

@@ -16,7 +16,7 @@ export default function ResetPassword() {
     const res = await api.updatePassword(password);
     if (res.success) {
       setSuccess(true);
-      setTimeout(() => navigate('/login'), 3000);
+      setTimeout(() => navigate('/'), 3000);
     } else {
       setError(res.message);
     }

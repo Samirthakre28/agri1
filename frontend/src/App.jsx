@@ -88,7 +88,7 @@ export default function App() {
 
   const ProtectedRoute = ({ children }) => {
     if (loading) return null;
-    return session ? <Layout>{children}</Layout> : <Navigate to="/login" />;
+    return session ? <Layout>{children}</Layout> : <Navigate to="/" />;
   };
 
   if (loading) return <div className="min-h-screen flex items-center justify-center bg-[#f8faf8]"><div className="animate-spin rounded-full h-8 w-8 border-b-2 border-emerald-800"></div></div>;

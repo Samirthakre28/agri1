@@ -207,10 +207,13 @@ export default function Landing() {
             <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/carbon-fibre.png')] opacity-10"></div>
             <div className="relative z-10 text-center max-w-3xl mx-auto">
               <h2 className="text-5xl lg:text-7xl font-black text-white leading-tight mb-10 italic">Your sweat. Your crops. <br/> <span className="text-emerald-500">Your price.</span></h2>
-              <Link className="inline-flex items-center gap-4 px-12 py-6 bg-white text-emerald-950 font-black text-xl rounded-3xl hover:scale-105 active:scale-95 transition-all shadow-2xl hover:bg-emerald-50" to="/login?mode=signup">
+              <button 
+                onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+                className="inline-flex items-center gap-4 px-12 py-6 bg-white text-emerald-950 font-black text-xl rounded-3xl hover:scale-105 active:scale-95 transition-all shadow-2xl hover:bg-emerald-50"
+              >
                 Secure Your Next Harvest
                 <span className="material-symbols-outlined text-3xl">rocket_launch</span>
-              </Link>
+              </button>
               <p className="mt-8 text-emerald-200/50 text-[13px] font-bold uppercase tracking-[0.2em]">Zero hidden fees • Unlimited Trust</p>
             </div>
           </div>

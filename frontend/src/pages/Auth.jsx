@@ -174,6 +174,29 @@ export default function Auth() {
                 <span className="material-symbols-outlined text-[18px] group-hover:translate-x-1 transition-transform">arrow_forward</span>
               </button>
 
+              {mode === 'login' && (
+                <div className="mt-6 pt-6 border-t border-zinc-100 text-center">
+                  <p className="text-[11px] font-bold text-zinc-400 uppercase tracking-widest mb-3">Demo Accounts</p>
+                  <div className="grid grid-cols-1 gap-2">
+                    <button 
+                      type="button"
+                      onClick={() => setFormData({...formData, contact: 'seller@farmlink.com', password: 'password123'})}
+                      className="text-[12px] py-2 px-4 rounded-lg bg-emerald-50 text-emerald-700 font-semibold hover:bg-emerald-100 transition-colors border border-emerald-100"
+                    >
+                      Login as Seller (Farmer)
+                    </button>
+                    <button 
+                      type="button"
+                      onClick={() => setFormData({...formData, contact: 'buyer@farmlink.com', password: 'password123'})}
+                      className="text-[12px] py-2 px-4 rounded-lg bg-blue-50 text-blue-700 font-semibold hover:bg-blue-100 transition-colors border border-blue-100"
+                    >
+                      Login as Buyer (Procurement)
+                    </button>
+                  </div>
+                  <p className="text-[10px] text-zinc-400 mt-2">Password: <span className="font-mono">password123</span></p>
+                </div>
+              )}
+
               {mode === 'forgot' && (
                 <button type="button" onClick={() => setMode('login')} className="w-full text-[13px] font-semibold text-zinc-500 hover:text-zinc-700 mt-2">Back to Login</button>
               )}

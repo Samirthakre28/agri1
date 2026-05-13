@@ -17,26 +17,74 @@ import { supabase } from './services/supabase';
 export const AuthContext = createContext();
 
 export default function App() {
-  // Hardcode a mock session so the user never has to log in
-  const mockUser = {
-      id: "demo-123", 
-      email: "demo@farmlink.com",
-      name: "Demo Farmer",
-      role: "Seller",
-      contact: "9876543210"
-  };
-  
-  const [session, setSession] = useState(mockUser);
-  const [loading, setLoading] = useState(false);
+  const [session, setSession] = useState(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchSession = async () => {
+      // 1. Check for hardcoded demo session in localStorage first
+      const savedSession = localStorage.getItem('farmlink_demo_session');
+      if (savedSession) {
+        setSession(JSON.parse(savedSession));
+        setLoading(false);
+        return;
+      }
+
+      // 2. Otherwise check Supabase
+      const { data: { session: supaSession } } = await supabase.auth.getSession();
+      
+      if (supaSession) {
+          const { data: { user } } = await supabase.auth.getUser();
+          if (user) {
+              const newSession = {
+                  id: user.id, email: user.email,
+                  name: user.user_metadata?.display_name || user.user_metadata?.name,
+                  role: user.user_metadata?.role,
+                  contact: user.user_metadata?.contact
+              };
+              setSession(newSession);
+          }
+      } else {
+          setSession(null);
+      }
+      setLoading(false);
+    };
+    
+    fetchSession();
+
+    const { data: { subscription } } = supabase.auth.onAuthStateChange(async (event, currentSupaSession) => {
+        if (event === 'SIGNED_OUT') {
+            setSession(null);
+            localStorage.removeItem('farmlink_demo_session');
+        } else if (event === 'SIGNED_IN' && currentSupaSession) {
+            const user = currentSupaSession.user;
+            const newSession = {
+                id: user.id, email: user.email,
+                name: user.user_metadata?.display_name || user.user_metadata?.name,
+                role: user.user_metadata?.role,
+                contact: user.user_metadata?.contact
+            };
+            setSession(newSession);
+        }
+    });
+
+    return () => {
+        subscription?.unsubscribe();
+    };
+  }, []);
 
   const logout = async () => {
-    // Optional: just redirect to home on logout
-    window.location.href = '/';
+    await supabase.auth.signOut();
+    localStorage.removeItem('farmlink_demo_session');
+    setSession(null);
   };
 
   const ProtectedRoute = ({ children }) => {
-    return <Layout>{children}</Layout>;
+    if (loading) return null;
+    return session ? <Layout>{children}</Layout> : <Navigate to="/login" />;
   };
+
+  if (loading) return <div className="min-h-screen flex items-center justify-center bg-[#f8faf8]"><div className="animate-spin rounded-full h-8 w-8 border-b-2 border-emerald-800"></div></div>;
 
   return (
     <AuthContext.Provider value={{ session, setSession, logout }}>

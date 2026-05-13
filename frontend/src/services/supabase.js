@@ -34,6 +34,25 @@ export const login = async (identifier, password) => {
             return { success: false, message: "Please enter your email/mobile and password." };
         }
 
+        // ─── HARDCODED DEMO ACCOUNTS ───────────────────────────────────
+        const demoAccounts = {
+            'seller@farmlink.com': {
+                password: 'password123',
+                user: { id: 'demo-seller', email: 'seller@farmlink.com', name: 'Demo Farmer', role: 'Seller', contact: '9876543210' }
+            },
+            'buyer@farmlink.com': {
+                password: 'password123',
+                user: { id: 'demo-buyer', email: 'buyer@farmlink.com', name: 'Demo Buyer', role: 'Buyer', contact: '9876543211' }
+            }
+        };
+
+        if (demoAccounts[identifier] && demoAccounts[identifier].password === password) {
+            const userData = demoAccounts[identifier].user;
+            localStorage.setItem('farmlink_demo_session', JSON.stringify(userData));
+            return { success: true, user: userData };
+        }
+        // ──────────────────────────────────────────────────────────────
+
         const body = identifier.includes('@') 
             ? { email: identifier, password } 
             : { contact: identifier, password };
@@ -49,7 +68,7 @@ export const login = async (identifier, password) => {
         const contentType = response.headers.get("content-type");
         if (!contentType || !contentType.includes("application/json")) {
             console.error("Non-JSON API response for Login");
-            return { success: false, message: "Server error. Please ensure the backend is running." };
+            return { success: false, message: "Server error. Please ensure the backend is running or use a demo account." };
         }
 
         const result = await response.json();
